@@ -49,6 +49,10 @@ public class PlayerMovement : MonoBehaviour
         {
             shouldJump = true;
         }
+        else if (Input.GetKeyUp(playerJumpKey))
+        {
+            shouldJump = false;
+        }
 
         if (Input.GetKeyDown(sprintKey))
         {
@@ -93,7 +97,6 @@ public class PlayerMovement : MonoBehaviour
         {
             playerRigidbody.AddForce(new Vector3(0, jumpImpulse, 0), ForceMode.Impulse);
             shouldJump = false;
-            isGrounded = false;
         }
     }
 
