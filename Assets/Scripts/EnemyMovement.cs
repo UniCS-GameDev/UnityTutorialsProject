@@ -33,15 +33,24 @@ public class EnemyMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isPaused || Target == null)
+        if (Target == null)
         {
             return;
         }
 
         if (Vector3.Distance(transform.position, Target.position) < StoppingDistance)
         {
-            ReachedTarget?.Invoke(transform.position, Resume);
-            isPaused = true;
+            // face the target
+            Vector3 direction = (Target.position - transform.position).normalized;
+            direction.y = 0; // dont look upwards if the target is jumping or above the enemy
+            Quaternion rotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.fixedDeltaTime);
+
+            if (!isPaused)
+            {
+                ReachedTarget?.Invoke(transform.position, Resume);
+                isPaused = true;
+            }
         }
         else
         {
