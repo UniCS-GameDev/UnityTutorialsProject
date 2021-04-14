@@ -4,9 +4,17 @@ using UnityEngine;
 
 public class EnemyBehaviourMelee : EnemyBehaviourBase
 {
+    [SerializeField] private int damage;
+    [SerializeField] private Hitbox hitbox;
+
     private IEnumerator AttackCoroutine(Action resumeTrackingCallback)
     {
+        hitbox.Parent = gameObject;
+        hitbox.Damage = damage;
+
+        hitbox.gameObject.SetActive(true);
         yield return new WaitForSeconds(AttackCooldown);
+        hitbox.gameObject.SetActive(false);
 
         resumeTrackingCallback();
     }
